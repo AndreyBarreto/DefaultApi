@@ -1,8 +1,10 @@
 import { Request, Response } from 'express';
+import ContactsRepository from '../repositories/ContactsRepository';
 
 class ContactController {
-  index(request:Request, response:Response) {
-    response.send('Send From contact Controller');
+  async index(request:Request, response:Response) {
+    const contacts = await ContactsRepository.findAll();
+    response.json(contacts);
     // list all registers
   }
 
