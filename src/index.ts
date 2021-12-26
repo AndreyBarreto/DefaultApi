@@ -1,10 +1,8 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import routes from './routes';
 
 const app = express();
-
-app.get('/', (request:Request, response:Response) => {
-  response.send('Hello World');
-});
+app.use(routes);
 
 app.listen(3000, () => {
   console.log('Server Running');

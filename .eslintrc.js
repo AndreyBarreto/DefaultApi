@@ -15,5 +15,8 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
+    'import/extensions': 'off',
+    'class-methods-use-this': 'off',
   },
+
 };
