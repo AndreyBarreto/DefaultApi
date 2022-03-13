@@ -4,6 +4,10 @@ import ContactController from './app/controllers/ContactController';
 
 const router = Router();
 
-router.get('/contacs', ContactController.index);
+router.get('/contacts', ContactController.index);
+router.get('/contacts/:id', ContactController.show);
+router.delete('/contacts/:id', ContactController.delete);
+router.post('/contacts ', ContactController.store);
+router.put('/contacts/:id', ContactController.update);
 
 export default router;

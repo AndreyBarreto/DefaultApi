@@ -19,7 +19,10 @@ module.exports = {
         'class-methods-use-this': 'off',
         'import/extensions': 'off',
         'no-promise-executor-return': 'off',
+        'consistent-return': 'off',
         indent: ['error', 4],
+        camelcase: 'off',
+        'max-len': 'off',
     },
 
 };
