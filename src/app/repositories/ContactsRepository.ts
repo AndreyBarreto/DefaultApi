@@ -39,17 +39,6 @@ class ContactRepository {
         return row
     }
 
-    delete(id: string) {
-        return new Promise((resolve) => resolve(contacts.filter((contact) => contact.id !== id)));
-    }
-
-    async findByEmail(email: string) {
-        const [row] = await query(`
-        SELECT * FROM contacts
-        WHERE email = $1
-        `, [email])
-        return row
-    }
 
     async create({
         name, email, phone, category_id,
@@ -62,23 +51,29 @@ class ContactRepository {
         return row
     }
 
-    update(id: string, {
+    async update(id: string, {
         name, email, phone, category_id,
     }: IContacts) {
-        return new Promise((resolve) => {
-            const updatedContact = {
-                id,
-                name,
-                email,
-                phone,
-                category_id,
-            };
-            const teste = contacts.map((contact) => (
-                contact.id === id ? updatedContact : contact
-            ));
-            teste;
-            resolve(updatedContact);
-        });
+        const [row] = await query(`
+        UPDATE contacts
+        SET name = $1, email = $2 , phone = $3 , category_id  = $4
+        WHERE id = $5
+        RETURNING * 
+        `, [name, email, phone, category_id, id]);
+        return row
+    }
+
+
+    delete(id: string) {
+        return new Promise((resolve) => resolve(contacts.filter((contact) => contact.id !== id)));
+    }
+
+    async findByEmail(email: string) {
+        const [row] = await query(`
+            SELECT * FROM contacts
+            WHERE email = $1
+            `, [email])
+        return row
     }
 }
 
