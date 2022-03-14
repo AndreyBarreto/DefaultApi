@@ -1,4 +1,5 @@
 import { v4 as uuidv4, v4 } from 'uuid';
+import query from '../../database';
 
 interface IContacts {
     id?: string;
@@ -34,20 +35,15 @@ class ContactRepository {
         return new Promise<IContacts | undefined>((resolve) => resolve(contacts.find((contact) => contact.email === email)));
     }
 
-    create({
+    async create({
         name, email, phone, category_id,
     }: IContacts) {
-        return new Promise((resolve) => {
-            const newContact = {
-                id: v4(),
-                name,
-                email,
-                phone,
-                category_id,
-            };
-            contacts.push(newContact);
-            resolve(newContact);
-        });
+        const [row] = await query(`
+        INSERT INTO contacts(name,email,phone)
+        VALUES ($1,$2,$3)
+        RETURNING *
+        `, [name, email, phone])
+        return row
     }
 
     update(id: string, {
