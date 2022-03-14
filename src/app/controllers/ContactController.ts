@@ -3,7 +3,8 @@ import ContactsRepository from '../repositories/ContactsRepository';
 
 class ContactController {
     async index(request: Request, response: Response) {
-        const contacts = await ContactsRepository.findAll();
+        const orderBy: any = request.query.orderBy
+        const contacts = await ContactsRepository.findAll(orderBy);
         response.json(contacts);
         // list all registers
     }
@@ -20,19 +21,18 @@ class ContactController {
     }
 
     async store(request: Request, response: Response) {
-        console.log(request.body)
         const {
             name, email, phone, category_id,
         } = request.body;
-        // const contactExists = await ContactsRepository.findByEmail(email);
+        const contactExists = await ContactsRepository.findByEmail(email);
 
         if (!name) {
             return response.status(400).json({ error: 'Name is required' });
         }
 
-        // if (contactExists) {
-        //     return response.status(400).json({ error: 'This e-mail is already in use' });
-        // }
+        if (contactExists) {
+            return response.status(400).json({ error: 'This e-mail is already in use' });
+        }
         const contact = await ContactsRepository.create({
             name, email, phone, category_id,
         });

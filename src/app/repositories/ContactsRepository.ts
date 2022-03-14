@@ -19,20 +19,36 @@ const contacts: [IContacts] = [
     }];
 
 class ContactRepository {
-    findAll() {
-        return new Promise((resolve) => resolve(contacts));
+    async findAll(orderBy = 'ASC') {
+
+        const direction = orderBy.toUpperCase() == 'DESC' ? 'DESC' : 'ASC';
+
+        const rows = await query(`
+        SELECT * FROM contacts
+        ORDER BY name ${direction}
+        `, [])
+
+        return rows
     }
 
-    findById(id: string) {
-        return new Promise((resolve) => resolve(contacts.find((contact) => contact.id === id)));
+    async findById(id: string) {
+        const [row] = await query(`
+        SELECT * FROM contacts
+        WHERE id = $1
+        `, [id])
+        return row
     }
 
     delete(id: string) {
         return new Promise((resolve) => resolve(contacts.filter((contact) => contact.id !== id)));
     }
 
-    findByEmail(email: string) {
-        return new Promise<IContacts | undefined>((resolve) => resolve(contacts.find((contact) => contact.email === email)));
+    async findByEmail(email: string) {
+        const [row] = await query(`
+        SELECT * FROM contacts
+        WHERE email = $1
+        `, [email])
+        return row
     }
 
     async create({
