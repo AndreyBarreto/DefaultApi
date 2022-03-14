@@ -64,8 +64,12 @@ class ContactRepository {
     }
 
 
-    delete(id: string) {
-        return new Promise((resolve) => resolve(contacts.filter((contact) => contact.id !== id)));
+    async delete(id: string) {
+        const deleteOp = await query(`
+        DELETE FROM contacts
+        WHERE id = $1
+        `, [id])
+        return deleteOp
     }
 
     async findByEmail(email: string) {
