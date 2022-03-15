@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import ContactsRepository from '../repositories/ContactsRepository';
+require('express-async-errors');
+
 
 class ContactController {
     async index(request: Request, response: Response) {
