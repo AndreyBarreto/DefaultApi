@@ -1,5 +1,5 @@
 import { Router } from 'express';
-
+import categoryController from './app/controllers/categoryController';
 import ContactController from './app/controllers/ContactController';
 
 const router = Router();
@@ -9,5 +9,9 @@ router.get('/contacts/:id', ContactController.show);
 router.delete('/contacts/:id', ContactController.delete);
 router.post('/contacts', ContactController.store);
 router.put('/contacts/:id', ContactController.update);
+
+
+router.get('/categories', categoryController.index)
+router.post('/categories', categoryController.store)
 
 export default router;

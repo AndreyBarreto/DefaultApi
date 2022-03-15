@@ -8,15 +8,6 @@ interface IContacts {
     phone: string;
     category_id: string;
 }
-const contacts: [IContacts] = [
-    {
-        id: uuidv4(),
-        name: 'dey',
-        email: 'dey@hotmai.com',
-        phone: '123',
-        category_id: uuidv4(),
-
-    }];
 
 class ContactRepository {
     async findAll(orderBy = 'ASC') {
